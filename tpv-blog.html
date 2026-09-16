@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thermophotovoltaic concentrator — Notes &mdash; Mihika Kamat</title>
+<meta name="description" content="Working notes on compound parabolic concentrator cross-sections and 3D-printed designs for solar thermophotovoltaic systems.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=1789353055">
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <h1 class="wordmark">Mihika Kamat</h1>
+  </header>
+
+  <main>
+
+    <div class="page">
+
+    <nav class="sidenav" aria-label="Sections">
+      <a href="index.html">Home</a>
+      <a href="research.html" aria-current="page">Research</a>
+      <a href="art.html">Art</a>
+      <a href="music.html">Violin</a>
+    </nav>
+
+    <div class="page-body">
+
+      <section class="section">
+        <h2>Compound Parabolic Concentrator Cross-Sections and 3D-Printed Designs for Solar
+        Thermophotovoltaic Systems</h2>
+        <!--
+        <p class="meta">Mihika Kamat, Jayden Leung, Matteo Yu, Molly McLaughlin, Dr. Fatima Toor
+        &middot; Secondary Student Training Program, Department of Electrical and Computer
+        Engineering, University of Iowa &middot; Jun &ndash; Jul 2026</p>
+        -->
+        <p class="card-more"><a href="assets/doc/sstp-research-brief.pdf">Paper (PDF)</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Background</h2>
+        <p>The <strong>Shockley&ndash;Queisser limit</strong> predicts the theoretical maximum
+        efficiency of single-junction solar cells to be approximately 31%, due to the mismatch
+        between the Sun&rsquo;s broadband spectrum and the silicon bandgap. Solar thermophotovoltaic
+        systems present an advantage over photovoltaic systems here: they use an intermediate
+        absorber and emitter that allow the emission spectrum to be tuned, so more of what reaches
+        the cell arrives at a wavelength it can use. That raises the theoretical ceiling to roughly
+        85% under ideal conditions &mdash; at which an area the size of New Jersey could meet the
+        electrical power demands of Earth&rsquo;s entire population and industries.</p>
+
+        <p>Laboratory STPV systems have achieved efficiencies as high as 42% using III&ndash;V
+        photovoltaic cells and selective emitters, but these systems can be impractical and
+        expensive due to the low availability of materials.</p>
+
+        <p>This study investigates the role of the compound parabolic concentrator (CPC) and the
+        absorber/emitter material in the STPV system, and their impact on system performance under
+        practical operating conditions.</p>
+
+      </section>
+
+      <section class="section">
+        <h2>Understanding the system</h2>
+        <p>A solar thermophotovoltaic (STPV) system converts sunlight into heat and re-emits it as infrared radiation matched to the PV cell
+        bandgap.</p>
+        <p>The STPV system includes a concentrator, an absorber, an emitter, and a PV cell.
+        Concentrated sunlight is absorbed as heat, then emitted toward the PV cell. To prevent
+        thermal damage to the PV cell, a heat sink is attached to the back, allowing it to cool
+        through convection.</p>
+        <figure class="poster-figure diagram">
+          <img src="assets/img/research/sstp/fig1-stpv-system.jpg?v=1789352407"
+               alt="Diagram of an STPV system: sun, concentrator, absorber and emitter, PV cell, heat sink">
+          <figcaption>Figure 1. Components of an STPV System.</figcaption>
+        </figure>
+
+        <p><strong>Concentrator.</strong> Focuses sunlight on to the absorber.</p>
+        <p><strong>Absorber.</strong> Converts concentrated sunlight into heat.</p>
+        <p><strong>Emitter.</strong> Radiates thermal energy towards PV cell at wavelengths close to
+        bandgap.</p>
+        <p><strong>PV Cell.</strong> Semiconductors that absorb photons above their bandgap to
+        convert to energy into electricity.</p>
+        <p><strong>Heat Sink.</strong> Dissipates heat from PV cell to maintain efficiency.</p>
+      </section>
+
+      <section class="section">
+        <h2>Methods</h2>
+        <p>Traditionally, concentrators are primarily Fresnel lenses, parabolic dishes, or CPCs,
+        commercially available but often prohibitively expensive. We chose to work with the CPC as
+        it offered more design flexibility than other concentrators, and fabricated custom CPCs
+        through 3D printing.</p>
+
+        <p>We conducted a parameter sweep over the shape of the concentrator cross-section &mdash;
+        circle, ellipse, rectangle &mdash; along with acceptance angle and the
+        relevant dimensions: radius of the circle, major and minor diameter for the ellipse, length
+        and width for the rectangle. Notably, we introduced the parameter <em>split</em>, which
+        allowed larger concentrators to be fabricated as an attachment of two separately printed
+        components (in regard to CAD, not the print bed).</p>
+
+        <p><strong>Split.</strong> For both circular and elliptical CPCs, a 2-piece split print was
+        predicted to increase system efficiency by 69%.</p>
+
+        <figure class="poster-figure chart">
+        <img src="assets/img/research/sstp/split-gains.png?v=1789352407"
+        alt="Three bar charts comparing no split with a two-piece split: cost, absorbed power, and temperature">
+        <figcaption>Figure 2. What the two-piece split buys, at the same shape and the same 50.8 mm
+        receiver: 69% more cost headroom, 69% more absorbed power, and a 29% higher
+        temperature.</figcaption>
+        </figure>
+
+        <p><strong>Acceptance Angle.</strong> A large acceptance angle increases ability to use the
+        design throughout the day, making it more practical for usage, but it also reduces
+        efficiency. Elliptical designs, able to maintain a wide East-West angle alongside a narrow
+        North-South angle, showed more resistance to this change.</p>
+
+        <figure class="poster-figure chart">
+        <img src="assets/img/research/sstp/sweep-heatmaps.png?v=1789352407"
+        alt="Parameter sweeps over cross-sectional shape and acceptance angle, and the effect of the split design">
+        <figcaption>Figure 3. Sweeps run on different cross-sectional shape designs for Solar
+        concentrators. (a) Analyzing Temperature as a function of acceptance angle. (b) Effect of
+        Split design on efficiency.</figcaption>
+        </figure>
+
+        <p>Two concentrators were fabricated for testing: a circular CPC with radius 74.265 mm and
+        an acceptance angle of 20&deg;, and an elliptical CPC (split) with major and minor radii of
+        100.64 mm and 98.14 mm, and acceptance angles of 15&deg; and 10&deg; along the major and
+        minor axes respectively.</p>
+
+        <p><strong>Assembly Rig:</strong> CAD with Autodesk Fusion. Variable heights: 1 mm, 2 mm,
+        4 mm, 8 mm, 16 mm.</p>
+
+        <figure class="poster-figure">
+        <img src="assets/img/research/sstp/fig3-assembly-rig.jpg?v=1789352407"
+        alt="CAD drawing of the assembly rigs at their five heights">
+        <figcaption>Figure 4. Variable heights of Assembly Rigs, shown in CAD.</figcaption>
+        </figure>
+
+        <p><strong>Concentrators.</strong> Designed in CAD with the Cadquery library for Python.
+        Two were fabricated for testing: a circular CPC as the control, and an elliptical CPC
+        printed in two interlocking parts so that a longer concentrator would fit the print bed.</p>
+
+        <figure class="poster-figure photo whole">
+        <video class="task-video" src="assets/video/sstp/cad-circular-cpc.mp4?v=1789344631"
+        autoplay muted playsinline loop preload="metadata"
+        aria-label="Rotating CAD render of the circular compound parabolic concentrator"></video>
+        <figcaption>Figure 5. The circular cross-section CPC in CAD.</figcaption>
+        </figure>
+
+        <figure class="poster-figure photo whole">
+        <img src="assets/img/research/sstp/build-printed-parts.jpg?v=1789352407"
+        alt="Two 3D-printed concentrators: a single-piece circular cone and a segmented two-part elliptical design">
+        <figcaption>Figure 6. The printed designs &mdash; the single-piece circular CPC beside the
+        two-part elliptical CPC with its intermediate connector.</figcaption>
+        </figure>
+        <div class="photo-row">
+        <figure><img src="assets/img/research/sstp/build-printing.jpg?v=1789352407"
+        alt="A concentrator being printed on a Bambu Lab 3D printer"></figure>
+        <figure><img src="assets/img/research/sstp/build-painting.jpg?v=1789352407"
+        alt="Concentrators being spray-coated, with paint cans and gloves on the bench"></figure>
+        <figure><img src="assets/img/research/sstp/build-finished.jpg?v=1789352407"
+        alt="The two finished metallic-coated concentrators standing on a board"></figure>
+        </div>
+        <p class="figure-note">Figure 7. Printing, chrome spray coating, and the finished pair.</p>
+
+        <figure class="poster-figure photo small">
+        <img src="assets/img/research/sstp/build-interior.jpg?v=1789352407"
+        alt="Looking down the inside of a coated concentrator toward the absorber at its base">
+        <figcaption>Figure 8. Looking down the reflective interior toward the absorber.</figcaption>
+        </figure>
+      </section>
+
+      <section class="section">
+        <h2>Testing</h2>
+        <p>These concentrators were tested outdoors on a 1 cm x 1 cm one-sided anodized (blackened) aluminum sheet against each other.</p>
+
+        <p>Indoors, we evaluated the use of different absorber/emitter materials: a 3 in x 3 in
+        silicon carbide (SiC) sheet, a 3 in x 3 in SiC sheet painted black on the absorber side, a
+        1 cm x 1 cm SiC sheet, a 1 cm x 1 cm SiC sheet painted black, and a 1 cm x 1 cm one-sided
+        anodized aluminum sheet.</p>
+
+        <p>For each of these scenarios, system efficiency is calculated as the ratio of power output
+        to power input. We connected the PV cell to a circuit that measures the current and voltage
+        through a range of load resistance and determined the system&rsquo;s maximum power. Because
+        the weather was partly cloudy on the day of outside measurement, the solar irradiance was
+        estimated from the measurements obtained with the PV cell and manufacturer specifications
+        regarding efficiency.</p>
+
+        <div class="photo-row">
+        <figure><img src="assets/img/research/sstp/test-outdoor.jpg?v=1789352407"
+        alt="Outdoor testing on a patio table: the concentrator upright with multimeters and wiring"></figure>
+        <figure><img src="assets/img/research/sstp/test-outdoor-2.jpg?v=1789352407"
+        alt="The concentrator over the photovoltaic cell during outdoor measurement"></figure>
+        <figure><img src="assets/img/research/sstp/test-indoor.jpg?v=1789352407"
+        alt="Indoor bench with two multimeters reading current and voltage under a lamp"></figure>
+        </div>
+        <p class="figure-note">Figure 9. (a, b) Outdoor testing setup. (c) Indoor testing setup.</p>
+      </section>
+
+      <section class="section">
+        <h2>Results</h2>
+
+        <h3>Indoors</h3>
+
+        <p>The 3 in &times; 3 in SiC absorbers produced no measurable electrical output. Among the
+        1 cm &times; 1 cm samples, the painted SiC achieved the highest efficiency (4.06%) and
+        maximum power (4.48 mW), followed by the unpainted SiC (3.85%, 4.25 mW) and anodized
+        aluminum (3.68%, 4.06 mW).</p>
+
+        <figure class="poster-figure chart">
+        <img src="assets/img/research/sstp/indoor-iv.png?v=1789352407"
+        alt="Current and power against voltage for the absorber and emitter materials tested indoors">
+        <figcaption>Figure 10. All 1 x 1 cm cut materials exhibited comparable performance from 3.5
+        to 4% efficiency, with a maximum power output of about 4 mW. The larger sheets
+        (76.2 x 76.2 mm) outputted no voltage and no currents due to difficulty heating
+        them.</figcaption>
+        </figure>
+
+        <h3>Outdoors</h3>
+
+        <p>Using the PV cell directly with the sunlight, and accounting for its efficiency
+        information from the manufacturer, I calculated the solar irradiance to be 502.5 W/m&sup2;.
+        With the anodized aluminum and the 2 mm cavity distance, the circular CPC had an efficiency
+        of 0.35% and a maximum observed power output of 30.1 mW; with optimized load resistance the
+        system could theoretically produce 31.63 mW. The elliptical CPC performed slightly better,
+        with an efficiency of 0.496% and an observed power output of 14.4 mW. It had greater
+        potential for improvement, however, with a theoretical efficiency of 2.1% and a maximum
+        power output of 43.25 mW, assuming optimized load resistance under the measured irradiance
+        conditions.</p>
+
+        <p>Under optimized resistance the elliptical CPC could achieve an efficiency as high as 2.1%
+        compared to 0.36% for the circular CPC, and a maximum power output of 43.25 mW compared to
+        31.1 mW.</p>
+
+        <figure class="poster-figure chart">
+        <img src="assets/img/research/sstp/outdoor-iv.png?v=1789352407"
+        alt="Current and power against voltage outdoors, comparing the circular and elliptical-split concentrators">
+        <figcaption>Figure 11. Current and Power comparison for circular and elliptical-split CPC
+        designs.</figcaption>
+        </figure>
+      </section>
+
+      <section class="section">
+        <h2>Discussion</h2>
+        <p><strong>Novelty.</strong> Previous 3D-printed CPCs were limited to circular
+        cross-sections. The usage of a male-female interlocking geometry enables printing a longer
+        elliptical CPC shown to achieve a theoretical efficiency of 2.1% under optimized resistance
+        for a silicon PV cell-anodized aluminum absorber/emitter system.</p>
+        <p><strong>Limitations.</strong> The system used a silicon PV cell instead of the
+        higher-efficiency InGa cells typically used in STPV systems due to cost constraint. In
+        addition, the emitter&ndash;PV cell spacing was not optimized, reducing radiative coupling
+        efficiency. Finally, the chrome spray coating (~50% reflectivity) lowered concentrator
+        optical efficiency.</p>
+
+        <p><strong>Conclusions.</strong> This work demonstrates a practical split-and-join
+        fabrication approach for 3D-printed CPCs. Comparing two designs, a split-elliptical CPC and
+        a circular CPC, we find the elliptical design to show more potential for growth in terms of
+        power output and efficiency. Future research could investigate split-and-join, specifically
+        elliptical designs, for cheap and quick fabrication in STPVs.</p>
+      </section>
+
+    </div>
+    </div>
+
+  </main>
+
+</div>
+
+
+<script src="assets/js/task-video.js?v=1789352956"></script>
+
+</body>
+</html>

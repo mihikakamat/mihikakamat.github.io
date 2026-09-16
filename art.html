@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Art &mdash; Mihika Kamat</title>
+<meta name="description" content="Drawings and paintings in pastel, pencil, and ink by Mihika Kamat.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=1789353055">
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <h1 class="wordmark"><a href="index.html">Mihika Kamat</a></h1>
+  </header>
+
+  <main>
+
+    <div class="page">
+
+    <nav class="sidenav" aria-label="Sections">
+      <a href="index.html">Home</a>
+      <a href="research.html">Research</a>
+      <a href="art.html" aria-current="page">Art</a>
+      <a href="music.html">Violin</a>
+    </nav>
+
+      <div class="page-body">
+
+    <section class="section" id="art">
+      <!-- 
+	<h2>Art</h2>
+      -->
+
+      <div class="gallery" id="gallery">
+        <!-- Rendered from assets/js/artwork.js. Add pieces there. -->
+      </div>
+      <p class="rights">All images copyright &copy; Mihika Kamat. All rights reserved worldwide.
+      Any use, private or public, without prior written consent by the artist is prohibited.</p>
+    </section>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Artwork viewer">
+  <button class="lb-close" id="lbClose" aria-label="Close viewer">&times;</button>
+  <button class="lb-prev"  id="lbPrev"  aria-label="Previous artwork">&#8249;</button>
+  <button class="lb-next"  id="lbNext"  aria-label="Next artwork">&#8250;</button>
+  <img id="lbImg" src="" alt="">
+  <p class="lightbox-caption" id="lbCaption"></p>
+</div>
+
+<script src="assets/js/artwork.js?v=1789344631"></script>
+<script src="assets/js/gallery.js?v=1789344631"></script>
+
+</body>
+</html>

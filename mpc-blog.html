@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Robot design space search — Notes &mdash; Mihika Kamat</title>
+<meta name="description" content="Working notes on Efficiently searching the robot design space, inspired by biological evolution.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=1789353055">
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <h1 class="wordmark">Mihika Kamat</h1>
+  </header>
+
+  <main>
+
+    <div class="page">
+
+    <nav class="sidenav" aria-label="Sections">
+      <a href="index.html">Home</a>
+      <a href="research.html" aria-current="page">Research</a>
+      <a href="art.html">Art</a>
+      <a href="music.html">Violin</a>
+    </nav>
+
+      <div class="page-body">
+
+      <section class="section">
+        <p class="project-title"><h2>Rapid discovery of robot designs via model predictive control</h2></p>
+        <!--
+        <p class="meta">Advanced Scientific Investigations, Los Altos High
+        School &middot; 2025/26</p>
+        -->
+        <p class="card-more"><a href="assets/doc/asi-paper.pdf">Paper (PDF)</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        </p>
+      </section>
+
+      <section class="section">
+        <p>Legged robot designs are often inspired by animals in nature. However, these designs may
+        not be optimized for task-specific performance, and only encapsulate a small fraction of the
+        design space. Animals have developed distinct morphological characteristics that enable them
+        to compete and survive in their environment. Can we automatically search the space of robot
+        designs in a similar fashion? In this work, we propose an efficient evolutionary algorithm
+        that designs a robot from scratch, given a task and a simulation environment.</p>
+      </section>
+
+      <section class="section">
+        <h2>Background</h2>
+        <p><strong>Morphology representations.</strong> Soft robots are usually represented with a
+        3D grid of voxels with varying physical properties. Rigid robot designs are represented with
+        kinematic trees, which consist of &ldquo;bodies&rdquo; interacted with &ldquo;joints&rdquo;.
+        Physics simulators such as MuJoCo, enable us to physically simulate robots from a kinematic
+        tree. We adopt the latter formulation, following the approach from Sims [3].</p>
+        <figure class="poster-figure">
+          <img src="assets/img/research/poster/fig1-kinematic-tree.jpg?v=1789352407" alt="A rendered MuJoCo Ant beside the kinematic tree describing it: a head with four hinge joints, each leading to a limb">
+          <figcaption>Figure 1: The kinematic tree describing the &ldquo;MuJoCo Ant&rdquo;.</figcaption>
+        </figure>
+
+        <p><strong>Design agnostic control.</strong> Because legged robot designs can be very
+        different structurally, a unique controller is required to score each morphology to its true
+        ability. Thus, robot evolution, has so far required the co-design of morphologies and their
+        respective controllers. We formulate the control problem as a Markov decision process,
+        pictured below.</p>
+        <figure class="poster-figure">
+          <img src="assets/img/research/poster/fig2-mdp.jpg?v=1789352407" alt="Diagram of a Markov decision process: an environment emitting state and reward into a policy, which emits an action back to the environment">
+          <figcaption>Figure 2: A Markov decision process consists of an environment, which outputs a state and reward, and a policy which outputs an action.</figcaption>
+        </figure>
+
+        <p>Reinforcement learning optimizes a controller which maps from a state to a policy. Due to
+        their stability, policy gradient methods such as PPO have been used in prior works to
+        evaluate each candidate in the evolutionary process [1]. However, it typically requires
+        billions of simulation steps per morphology, making it unsustainable for large population
+        sizes and generation counts.</p>
+
+        <p>Model predictive control optimizes a policy online, during the controller rollout, by
+        periodically updating an action plan based on &ldquo;imagined&rdquo; rollouts. While it
+        doesn&rsquo;t result in a reusable controller at the end of optimization, it enables sample
+        efficient evaluation of candidate robot morphologies in specific scenarios.</p>
+      </section>
+
+      <section class="section">
+        <!--
+        <h2>Hypothesis</h2>
+        <p class="callout">
+        -->
+        <p>
+        We hypothesize that a general physics simulator, combined with model
+        predictive control can enable efficient comparison and discovery of robot designs based on
+        task success.</p>
+      </section>
+
+      <section class="section">
+        <h2>Method</h2>
+        <p>We begin with a population of 128 procedurally generated morphologies. Each morphology
+        starts with a head body, and receives a randomly chosen sequence of mutations. At each
+        generation, every member of the population is evaluated for fitness. The best performing
+        morphology per group of 4 is mutated and used to replace the oldest members of the
+        population.</p>
+        <!-- 
+        <p>Further details are outlined in Algorithm 1.</p>
+        -->
+        <!--
+        <pre class="algorithm"><strong>Algorithm 1 Evolutionary Predictive Sampling (EPS)</strong>
+<strong>Require:</strong> initial population P, objective J
+<strong>Evolve:</strong> (repeat)
+ 1: Evaluate each design in population P for task fitness
+ 2: Randomize groups of size k
+ 3: Mutate best performing design in each group and insert into P
+ 4: Delete |P|/k oldest members in population
+<strong>Evaluate:</strong> (repeat)
+ 1: Plan to update policy &Pi;(&theta;)
+ 2: Read the current action u from policy &Pi;(&theta;), apply it to the controlled system
+ 3: Accumulate J to compute fitness
+<strong>Plan:</strong> (repeat)
+ 1: Measure the current state x
+ 2: Get N &minus; 1 samples &theta;<sup>(i)</sup> &sim; N(&theta;, &sigma;<sup>2</sup>)
+ 3: Including &theta;, roll out all N samples from x
+ 4: Pick the best one: &theta; &larr; argmax J(&theta;<sup>(i)</sup>)</pre>
+        -->
+
+        <figure class="poster-figure">
+          <img src="assets/img/research/poster/fig3-evolution-cycle.jpg?v=1789352407" alt="The evolution cycle: a population is divided into groups and evaluated, the best in each group is cloned and mutated, and the oldest members are deleted">
+          <figcaption>Figure 3: Evolution cycle on sample population. (1) Population &rarr; (2) Divide into groups and evaluate &rarr; (3) Clone and mutate best &rarr; (4) Delete oldest members.</figcaption>
+        </figure>
+
+        <figure class="poster-figure">
+          <img src="assets/img/research/poster/fig4-mutations.jpg?v=1789352407" alt="Seven mutation primitives shown as small robot renders: grow limb, delete limb, limb size, gear ratio, limb material, joint flexion, and joint degrees of freedom">
+          <figcaption>Figure 4: List of mutation primitives used for initializing and modifying designs.</figcaption>
+        </figure>
+      </section>
+
+      <section class="section">
+        <h2>Experiments</h2>
+        <p>To test our hypothesis, we design four tasks: rough terrain locomotion, flat terrain
+        locomotion, transporting a cube to a goal, and reorienting a cube to a goal orientation.
+        Their individual performance as reward, with key components outlined below.</p>
+
+        <div class="task-grid">
+
+          <figure class="task">
+            <h3>Rough terrain locomotion</h3>
+            <video class="task-video" src="assets/video/clips/rough-terrain.mp4?v=1789344631"
+                   autoplay muted playsinline controls preload="metadata"
+                   aria-label="Four-limbed robot walking over rough terrain"></video>
+            <!--
+            <figcaption>J = exp(&minus;(v &minus; v*)<sup>2</sup> / &sigma;<sup>2</sup>). Target velocity v* = 1 m/s.</figcaption>
+            -->
+          </figure>
+
+          <figure class="task">
+            <h3>Flat terrain locomotion</h3>
+            <video class="task-video" src="assets/video/clips/flat-terrain.mp4?v=1789344631"
+                   autoplay muted playsinline controls preload="metadata"
+                   aria-label="Robot walking across flat terrain"></video>
+    
+            <!--
+            <figcaption>J = exp(&minus;(v &minus; v*)<sup>2</sup> / &sigma;<sup>2</sup>). Target velocity v* = 1 m/s.</figcaption>
+            -->
+          </figure>
+
+          <figure class="task">
+            <h3>Transport cube to goal</h3>
+            <video class="task-video" src="assets/video/clips/manipulation.mp4?v=1789344631"
+                   autoplay muted playsinline controls preload="metadata"
+                   aria-label="Robot pushing a red cube toward a goal marker"></video>
+            <!--
+            <figcaption>J = log((d<sub>initial</sub> + &epsilon;) / (d<sub>current</sub> + &epsilon;)) + R<sub>shaping</sub>. Goal sampled in 25m x 25m grid.</figcaption>
+            -->
+          </figure>
+
+          <figure class="task">
+            <h3>Reorient cube to goal</h3>
+            <video class="task-video" src="assets/video/clips/orientation.mp4?v=1789344631"
+                   autoplay muted playsinline controls preload="metadata"
+                   aria-label="Robot rotating a cube toward a goal orientation"></video>
+            <!--
+            <figcaption>J = exp(&minus;acos(|q &middot; q*|) / &sigma;<sup>2</sup>) + R<sub>shaping</sub>. Goal orientation q* &sim; S<sup>3</sup>.</figcaption>
+            -->
+          </figure>
+
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Results</h2>
+        <figure class="poster-figure">
+          <img src="assets/img/research/poster/fig5-fitness.jpg?v=1789352407" alt="Four box-plot panels showing task fitness rising across generations 0 to 40 for rough locomotion, flat locomotion, cube transport, and cube reorientation">
+          <figcaption>Figure 5: Distribution of fitness score for morphologies versus evolution generations completed for each task.</figcaption>
+        </figure>
+        <p>Over 50 generations, design performance improves. However, diversity in designs reduces
+        in terms of skeletal structure, but continues to exhibit variance in limb length.</p>
+
+        <figure class="poster-figure">
+          <img src="assets/img/research/poster/fig6-eps-vs-derl.jpg?v=1789352407" alt="Two charts comparing EPS with DERL: normalized return against simulation steps, and evaluations per 100M steps">
+          <figcaption>Figure 6: Comparing EPS to DERL (an RL baseline).</figcaption>
+        </figure>
+        <p>EPS achieves 80x more evaluation throughput than DERL as measured in simulation steps.
+        In terms of improvement per generation, these two methods are comparable.</p>
+      </section>
+
+      <section class="section">
+        <h2>Future Work</h2>
+        <p><strong>Overcoming sparse rewards.</strong> Predictive sampling relies on dense rewards,
+        due to a finite planning horizon. While this method works well for locomotion tasks, it is
+        more challenging to reward manipulation tasks. Future work could explore the use of value
+        functions to overcome these limitations.</p>
+        <p><strong>Hybrid Tasks.</strong> To make EPS useful for real world robot design,
+        morphologies could be evaluated on multiple tasks simultaneously.</p>
+      </section>
+
+<!--
+      <section class="section">
+        <h2>References</h2>
+        <ol class="refs">
+          <li>Gupta, A., Savarese, S., Ganguli, S., et al. (2021). Embodied intelligence via
+          learning and evolution. <em>Nature Communications</em>, 12, 5721.</li>
+          <li>Howell, T., Gileadi, N., Tunyasuvunakool, S., Zakka, K., Erez, T., &amp; Tassa, Y.
+          (2022). &ldquo;Predictive Sampling: Real-time Behaviour Synthesis with MuJoCo,&rdquo;
+          arXiv:2212.00541.</li>
+          <li>Sims, K. (1994). Evolving virtual creatures. In <em>Proceedings of the 21st Annual
+          Conference on Computer Graphics and Interactive Techniques</em> (SIGGRAPH &rsquo;94).
+          Association for Computing Machinery.</li>
+        </ol>
+        <p class="note">Special thanks to Adam Rashid for his mentorship.</p>
+      </section>
+-->
+<!--
+      <section class="section">
+        <h2>Poster</h2>
+        <figure class="archive-figure">
+          <a href="assets/doc/posters/asi-poster.pdf">
+            <img src="assets/img/research/asi-poster.jpg?v=1789352407"
+                 alt="Poster: Rapid discovery of robot designs via model predictive control">
+          </a>
+          <figcaption><a href="assets/doc/posters/asi-poster.pdf">Full poster (PDF)</a>.</figcaption>
+        </figure>
+      </section>
+-->
+<!--
+      <section class="section">
+        <h2>Video</h2>
+         Put the YouTube id on data-youtube and this becomes a click-to-play player:
+             <div class="video" data-youtube="XXXXXXXXXXX"
+                  data-label="Robot design space search"></div> 
+        <div class="video-placeholder">Video &mdash; to be uploaded</div>
+      </section>
+-->
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script src="assets/js/video.js?v=1789344631"></script>
+
+<script src="assets/js/task-video.js?v=1789352956"></script>
+
+</body>
+</html>
