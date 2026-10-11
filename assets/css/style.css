@@ -1,0 +1,1255 @@
+/* ---------------------------------------------------------------------------
+   Mihika Kamat — personal site
+   Visual language follows matthewtancik.com: a single centered column, light
+   sans-serif type, a letterspaced wordmark, uppercase section rules, and
+   thumbnail-left content rows. Light theme only, as on the reference.
+   --------------------------------------------------------------------------- */
+
+:root {
+  --measure:      940px;   /* reference container width */
+  --ink:          #333;    /* reference body color */
+  --ink-soft:     #666;
+  --ink-faint:    #999;
+  --rule:         #e2e2e2;
+  --paper:        #fff;
+  --paper-alt:    #fafafa;
+  --link:         #1a6ec0;
+  --link-hover:   #0d4c8a;
+  --gap:          28px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.72;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+
+a { color: var(--link); text-decoration: none; }
+a:hover { color: var(--link-hover); text-decoration: underline; }
+
+.wrap {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* --- Masthead ------------------------------------------------------------ */
+
+.masthead {
+  text-align: center;
+  padding: 40px 0 22px;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* The reference sets a light, widely letterspaced name as the wordmark. The
+   trailing letterspace on the last glyph is compensated with a text-indent so
+   the word stays optically centered. */
+.wordmark {
+  font-family: Lato, "Open Sans", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  font-size: 46px;
+  line-height: 1.15;
+  letter-spacing: 12px;
+  text-indent: 12px;
+  text-transform: uppercase;
+  margin: 0;
+  color: var(--ink);
+}
+
+.tagline {
+  margin: 14px 0 0;
+  color: var(--ink-faint);
+  font-size: 12px;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+}
+
+/* --- Navigation ---------------------------------------------------------- */
+
+.nav {
+  margin-top: 34px;
+  padding-bottom: 26px;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.nav a {
+  color: var(--ink-soft);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding-bottom: 3px;
+  border-bottom: 1px solid transparent;
+}
+
+.nav a:hover { color: var(--ink); text-decoration: none; border-bottom-color: var(--ink); }
+.nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--ink); }
+
+/* --- Section cards ------------------------------------------------------- */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  padding-top: 46px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  color: var(--ink);
+  text-decoration: none;
+  overflow: hidden;
+  transition: border-color .2s ease, transform .2s ease;
+}
+
+.card:hover {
+  border-color: var(--ink-faint);
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+.card:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+
+.card-media {
+  display: block;
+  height: 150px;
+  background: var(--paper-alt);
+  border-bottom: 1px solid var(--rule);
+  overflow: hidden;
+}
+
+.card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform .4s ease;
+}
+
+/* Some pictures have their subject high in the frame; a centre crop cuts it
+   away. `from-top` pins to the top edge, `crop-upper` sits between the two —
+   for Stepping Out that keeps the figure in the doorway and the shadow it
+   throws, both of which a centre crop loses. */
+.card-media img.from-top { object-position: top; }
+.card-media img.crop-upper { object-position: 50% 25%; }
+
+.card:hover .card-media img { transform: scale(1.03); }
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 18px 19px 20px;
+}
+
+.card-title {
+  font-family: Lato, "Open Sans", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  font-size: 21px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.card-text {
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  flex: 1;
+}
+
+.card-more {
+  margin-top: 16px;
+  font-size: 12.5px;
+  letter-spacing: .4px;
+  color: var(--link);
+}
+
+.card:hover .card-more { color: var(--link-hover); }
+
+/* The wordmark links home from a landing page; it should not look like a link. */
+.wordmark a { color: inherit; text-decoration: none; }
+.wordmark a:hover { text-decoration: none; }
+
+@media (max-width: 991px) {
+  .cards { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 767px) {
+  .cards { grid-template-columns: 1fr; gap: 20px; }
+  .card-media { height: 150px; }
+}
+
+/* --- Landing-page side navigation ---------------------------------------- */
+
+.page {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  gap: 44px;
+  padding-top: 30px;
+}
+
+.sidenav {
+  position: sticky;
+  top: 34px;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidenav a {
+  color: var(--ink-soft);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding-left: 11px;
+  border-left: 2px solid transparent;
+}
+
+.sidenav a:hover { color: var(--ink); text-decoration: none; border-left-color: var(--rule); }
+
+.sidenav a[aria-current="page"] {
+  color: var(--ink);
+  border-left-color: var(--ink);
+}
+
+.page-body > .section:first-child { padding-top: 0; }
+
+@media (max-width: 767px) {
+  .page { grid-template-columns: 1fr; gap: 24px; padding-top: 26px; }
+  .sidenav {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .sidenav a { padding-left: 0; border-left: 0; }
+  .sidenav a[aria-current="page"] { border-left: 0; text-decoration: underline; }
+}
+
+/* --- Sections ------------------------------------------------------------ */
+
+main { padding-bottom: 40px; }
+
+.section { padding-top: 46px; }
+
+.section > h2 {
+  font-family: Lato, "Open Sans", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  font-size: 25px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin: 0 0 22px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink);
+}
+
+.section p { margin: 0 0 16px; }
+.section p:last-child { margin-bottom: 0; }
+
+.lede { font-size: 16.5px; }
+
+/* --- Intro: portrait beside bio ------------------------------------------ */
+
+/* No portrait: the bio runs as a single column, held to a comfortable measure
+   rather than stretching the full width. The page already supplies the space
+   above, so this adds none of its own. */
+.intro {
+  display: block;
+  max-width: 680px;
+  padding-top: 0;
+}
+
+.portrait {
+  width: 232px;
+  height: 232px;
+  object-fit: cover;
+  border-radius: 50%;
+  background: var(--paper-alt);
+}
+
+/* Portrait slot before a real photo exists: same circle, same footprint, so
+   dropping an image in will not reflow the intro. */
+.portrait.is-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--rule);
+  color: var(--ink-faint);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.intro-links {
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  font-size: 13.5px;
+}
+
+/* --- Entry rows: thumbnail left, detail right ---------------------------- */
+
+.entries { display: flex; flex-direction: column; gap: 34px; }
+
+/* Media in its own column, copy beside it. No floats. */
+.entry {
+  display: grid;
+  grid-template-columns: 315px 1fr;
+  gap: 26px;
+  align-items: start;
+}
+
+.entry-thumb {
+  width: 315px;
+  height: auto;
+  display: block;
+  background: var(--paper-alt);
+  border: 1px solid var(--rule);
+}
+
+/* The SSTP thumbnail is a tall portrait; a square crop anchored to the bottom
+   drops the empty upper frame and keeps the parts themselves. */
+/* Same width as the ASI reel beside it; the height follows the crop, which is
+   framed to keep both concentrators whole rather than to match a ratio. */
+.entry-thumb.crop-bottom {
+  width: 315px;
+  height: auto;
+}
+
+/* The reel sits in the same slot as a poster thumbnail. */
+video.entry-thumb { width: 315px; }
+.entry-thumb-link { display: block; line-height: 0; }
+
+/* Thumbnail slot before real imagery exists: same footprint, so swapping in a
+   photo will not reflow the page. */
+.entry-thumb.is-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--ink-faint);
+  font-size: 10.5px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  padding: 10px;
+  line-height: 1.5;
+}
+
+.entry h3 {
+  margin: 0 0 3px;
+  font-family: Lato, "Open Sans", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 18.5px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+/* Entry titles link through. No underline and no colour shift on hover: the
+   cue is an arrow that fades in, in space already reserved for it, so the
+   heading never reflows. */
+.entry-title {
+  color: inherit;
+  text-decoration: none;
+}
+
+.entry-title:hover,
+.entry-title:focus-visible { color: inherit; text-decoration: none; }
+
+.entry-title::after {
+  content: " \2192";
+  opacity: 0;
+  transition: opacity .18s ease;
+}
+
+.entry-title:hover::after,
+.entry-title:focus-visible::after { opacity: 1; }
+
+.entry .meta {
+  margin: 0 0 9px;
+  color: var(--ink-faint);
+  font-size: 13px;
+  letter-spacing: 0.4px;
+}
+
+.entry p { margin: 0 0 8px; font-size: 14.5px; }
+.entry .links { margin-top: 12px; font-size: 13.5px; }
+.entry .links a { margin-right: 18px; }
+.entry p:last-child { margin-bottom: 0; }
+
+.entry .mentor { color: var(--ink-soft); font-style: italic; font-size: 13.5px; }
+
+.tags { margin: 10px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+
+.tags li {
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border: 1px solid var(--rule);
+  padding: 3px 9px;
+}
+
+/* --- Compact list rows (awards, activities, teaching) -------------------- */
+
+.rows { margin: 0; padding: 0; list-style: none; }
+
+.rows li {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 14.5px;
+}
+
+.rows li:last-child { border-bottom: 0; }
+.rows .what strong { font-weight: 600; }
+.rows .what .where { color: var(--ink-soft); }
+.rows .when { color: var(--ink-faint); font-size: 13px; white-space: nowrap; }
+
+.note { color: var(--ink-soft); font-size: 13.5px; }
+
+/* Unconfirmed content. Deliberately loud: this must not survive to a published
+   site. Grep for "todo" before deploying. */
+.todo {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 7px;
+  border: 1px solid #c0392b;
+  border-radius: 2px;
+  background: #fdf0ef;
+  color: #c0392b;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  vertical-align: 2px;
+  white-space: nowrap;
+}
+
+/* Research materials: posters and talk videos, one block per project. */
+.materials { display: flex; flex-direction: column; gap: 34px; }
+
+.material h3 {
+  margin: 0 0 12px;
+  font-family: Lato, "Open Sans", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.material .video { position: relative; width: 100%; height: 0; padding-bottom: 56.25%;
+  background: var(--paper-alt); border: 1px solid var(--rule); overflow: hidden; }
+.material .video iframe,
+.material .video video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
+  object-fit: contain; background: #000; }
+
+.video-placeholder {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--rule);
+  background: var(--paper-alt);
+  color: var(--ink-faint);
+  font-size: 11.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.material-link { margin: 12px 0 0; font-size: 14px; }
+.material-link.is-pending { color: var(--ink-faint); font-size: 12.5px; }
+
+.more { margin-top: 18px; font-size: 14px; }
+
+/* Per-project Archive / Notes links inside a row. */
+.rows .links { display: block; margin-top: 4px; font-size: 12.5px; }
+.rows .links a { margin-right: 16px; }
+
+.backlink { margin: 34px 0 0; font-size: 13px; }
+
+.project-title {
+  font-family: Lato, "Open Sans", Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.45;
+  margin: 0 0 4px;
+}
+
+.section > h3 {
+  margin: 26px 0 10px;
+  font-family: Lato, "Open Sans", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.posts { display: flex; flex-direction: column; gap: 30px; }
+.post h3 { margin: 0 0 3px; font-family: Lato, sans-serif; font-weight: 400; font-size: 18px;
+  text-transform: none; letter-spacing: 0; color: var(--ink); }
+.post .meta { margin: 0 0 10px; color: var(--ink-faint); font-size: 13px; }
+
+.archive-figure { margin: 0 0 6px; }
+.archive-figure img { width: 100%; border: 1px solid var(--rule); }
+.archive-figure figcaption { margin-top: 8px; font-size: 12.5px; color: var(--ink-soft); }
+
+.todo-block { color: var(--ink-faint); font-style: italic; }
+
+/* Inline PDF viewer. Desktop browsers render it; mobile often refuses, which
+   is why the link underneath always stays. */
+.pdf-embed {
+  width: 100%;
+  aspect-ratio: 8.5 / 11;
+  max-height: 88vh;
+  border: 1px solid var(--rule);
+  background: var(--paper-alt);
+}
+
+.pdf-embed object,
+.pdf-embed iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+/* Plain bulleted list, used under Art. */
+.bullets { margin: 0; padding-left: 20px; }
+.bullets li { margin-bottom: 9px; }
+.bullets li:last-child { margin-bottom: 0; }
+
+/* A single photograph introducing a section. Held under full width so it sits
+   with the text rather than dominating it. */
+.section-figure {
+  margin: 0 0 26px;
+  max-width: 66%;
+}
+
+.section-figure img { width: 100%; border: 1px solid var(--rule); }
+
+.section-figure figcaption {
+  margin-top: 8px;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 767px) {
+  .section-figure { max-width: 100%; }
+}
+
+/* A small image sitting alongside a row's text. Baseline alignment does not
+   work once a picture is in the flex line, so these rows align to the top. */
+.rows li.has-thumb { align-items: flex-start; }
+
+.row-thumb {
+  flex: 0 0 132px;
+  width: 132px;
+  border: 1px solid var(--rule);
+  margin-top: 3px;
+}
+
+@media (max-width: 767px) {
+  .rows li.has-thumb { flex-direction: column; }
+  .row-thumb { flex: none; width: 100%; max-width: 260px; }
+}
+
+/* Photographs shown side by side, equal height, natural widths. */
+.photo-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.photo-row figure { margin: 0; }
+
+.photo-row img {
+  width: 100%;
+  object-fit: cover;
+  border: 1px solid var(--rule);
+  display: block;
+}
+
+@media (max-width: 767px) {
+  .photo-row { grid-template-columns: repeat(2, 1fr); }
+  .photo-row img { height: 150px; }
+}
+
+/* --- Art gallery --------------------------------------------------------- */
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 34px 26px;
+  align-items: start;
+}
+
+/* With exactly three pieces, the third sits centred on its own row beneath the
+   pair above. The :last-child guard keeps this from firing on a longer set. */
+.gallery-grid figure:nth-child(3):last-child {
+  grid-column: 1 / -1;
+  justify-self: center;
+  max-width: 66%;
+}
+
+/* The pair above is portrait and the piece below is landscape, so at equal
+   column width the portraits stand far taller. Narrowing them brings all three
+   to roughly the same height. */
+.gallery-grid figure:nth-child(-n+2) {
+  max-width: 85%;
+  justify-self: center;
+}
+
+.gallery-grid figure { margin: 0; }
+
+.gallery-grid button.tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 250px;
+  padding: 0;
+  border: 1px solid var(--rule);
+  background: var(--paper-alt);
+  cursor: pointer;
+  font: inherit;
+  overflow: hidden;
+}
+
+.gallery-grid button.tile:hover { border-color: var(--ink-faint); }
+
+/* The last row is landscape work; a shorter tile keeps the whitespace around it
+   in proportion with the portrait rows above. */
+.gallery-grid figure:nth-child(n+7) button.tile { height: 200px; }
+
+.gallery-grid button.tile:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+
+.gallery-grid img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  transition: transform .35s ease;
+}
+
+.gallery-grid button.tile:hover img { transform: scale(1.03); }
+
+/* Empty gallery slot, sized like a real tile. */
+.tile.is-placeholder {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--ink-faint);
+  font-size: 11px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  white-space: pre-line;
+  padding: 12px;
+  cursor: default;
+}
+
+.tile.is-placeholder:hover { border-color: var(--rule); }
+
+.gallery-grid figcaption {
+  margin-top: 8px;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.gallery-grid figcaption .medium { color: var(--ink-faint); }
+
+/* Rights notice under the gallery: present and readable, but not competing
+   with the work above it. */
+.rights {
+  margin: 26px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule);
+  color: var(--ink-faint);
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+/* --- Artwork carousel ---------------------------------------------------- */
+
+/* No horizontal rules inside the art section: the row dividers and the rule
+   above the rights notice are both suppressed here. */
+#art .rows li { border-bottom: 0; }
+#art .rights { border-top: 0; padding-top: 0; margin-top: 22px; }
+
+.carousel { display: block; }
+
+/* The viewport holds the arrows either side of the three-up stage. */
+.carousel-viewport {
+  position: relative;
+  padding: 0 34px;
+}
+
+.carousel-stage {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 46px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-faint);
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color .2s ease;
+}
+
+.carousel-arrow:hover { color: var(--ink); }
+.carousel-arrow:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+.carousel-prev { left: 0; }
+.carousel-next { right: 0; }
+
+.carousel-slot { margin: 0; }
+
+/* A fixed frame height keeps the page from jumping as pieces of different
+   proportions rotate through. */
+.carousel-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 300px;
+  padding: 0;
+  border: 1px solid var(--rule);
+  background: var(--paper-alt);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.carousel-frame img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  transition: transform .4s ease;
+}
+
+.carousel-frame:hover img { transform: scale(1.02); }
+.carousel-frame:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+
+.carousel-slot figcaption,
+.gallery-grid figcaption {
+  margin-top: 10px;
+  text-align: center;
+  line-height: 1.45;
+  min-height: 3.1em;
+}
+
+.art-title {
+  display: block;
+  font-size: 13.5px;
+  color: var(--ink);
+}
+
+.art-medium {
+  display: block;
+  margin-top: 2px;
+  font-size: 11.5px;
+  font-style: italic;
+  color: var(--ink-faint);
+}
+
+/* Each change re-triggers this, so a new piece fades rather than snapping. */
+.carousel-slot.is-fresh .carousel-frame img { animation: art-fade .55s ease; }
+
+@keyframes art-fade { from { opacity: 0; } to { opacity: 1; } }
+
+.carousel-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.carousel-thumb {
+  width: 76px;
+  height: 76px;
+  padding: 0;
+  border: 1px solid var(--rule);
+  background: var(--paper-alt);
+  cursor: pointer;
+  overflow: hidden;
+  opacity: .62;
+  transition: opacity .2s ease, border-color .2s ease;
+}
+
+.carousel-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.carousel-thumb:hover { opacity: 1; }
+.carousel-thumb.is-current { opacity: 1; border-color: var(--ink); }
+.carousel-thumb:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+
+@media (max-width: 767px) {
+  .carousel-stage { grid-template-columns: 1fr; gap: 24px; }
+  .carousel-frame { height: 260px; }
+  .carousel-viewport { padding: 0 26px; }
+  .carousel-thumb { width: 62px; height: 62px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-slot.is-fresh .carousel-frame img { animation: none; }
+  .carousel-frame:hover img { transform: none; }
+}
+
+/* --- Reproduced poster content -------------------------------------------- */
+
+.algorithm {
+  margin: 18px 0 0;
+  padding: 16px 18px;
+  border: 1px solid var(--rule);
+  background: var(--paper-alt);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 12.5px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
+.figure-note {
+  color: var(--ink-faint);
+  font-size: 12.5px;
+  font-style: italic;
+}
+
+.callout {
+  padding: 14px 18px;
+  border-left: 2px solid var(--ink);
+  background: var(--paper-alt);
+  font-size: 15px;
+}
+
+.refs {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.refs li { margin-bottom: 9px; }
+.refs li:last-child { margin-bottom: 0; }
+
+/* Figures sit centred in the column. Images are display:block site-wide, so
+   auto side margins are what actually centres them; text-align only moves the
+   caption. */
+.poster-figure {
+  margin: 18px auto 22px;
+  max-width: 78%;
+  text-align: center;
+}
+
+.poster-figure img,
+.poster-figure video {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.poster-figure figcaption { text-align: center; }
+
+/* Photo rows centre as a group too. */
+.photo-row { justify-content: center; }
+
+/* Tall or small figures do not need the full measure. */
+.poster-figure.narrow { max-width: 42%; }
+
+@media (max-width: 767px) { .poster-figure.narrow { max-width: 100%; } }
+
+.poster-figure img {
+  width: 100%;
+  background: #fff;
+}
+
+.poster-figure figcaption {
+  margin-top: 8px;
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--ink-faint);
+  line-height: 1.5;
+}
+
+/* A tall, narrow diagram: centred, and capped by height so it does not tower
+   over the paragraphs around it. */
+.poster-figure.diagram {
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.poster-figure.diagram img {
+  width: auto;
+  max-width: 100%;
+  max-height: 380px;
+  /* Images are display:block site-wide, so text-align on the figure does not
+     move them. Auto side margins are what actually centres a block. */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.poster-figure.diagram figcaption { text-align: center; }
+
+/* Photographs render at one common height so they read as a set, whatever
+   their aspect ratio. Charts and diagrams keep their own proportions. */
+/* Standalone photographs share one frame, so a set of them lines up instead of
+   each taking its own width from its aspect ratio. */
+.poster-figure.photo { max-width: 480px; }
+
+.poster-figure.photo img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+}
+
+/* The CAD render is a tall object: contain it rather than crop the model. */
+.poster-figure.photo video {
+  width: 100%;
+  height: 300px;
+  object-fit: contain;
+  background: #fff;
+  display: block;
+}
+
+/* Charts carry axis labels and legends, so they get the full column. */
+/* A portrait shot shown entire: no crop, height follows the image. */
+.poster-figure.photo.whole { max-width: 250px; }
+
+.poster-figure.photo.whole img,
+.poster-figure.photo.whole video {
+  height: auto;
+  object-fit: contain;
+}
+
+/* A clip shown at the same measure as the photo beside it. The .task-video
+   frame belongs to the ASI strips, where the clips butt against each other;
+   a lone figure here carries its caption instead. */
+.poster-figure video.task-video {
+  border: 0;
+  background: #fff;
+}
+
+/* A single detail shot does not need the full photo frame. */
+.poster-figure.photo.small { max-width: 330px; }
+.poster-figure.photo.small img { height: 220px; }
+
+.poster-figure.chart { max-width: 100%; }
+.poster-figure.chart img { width: 100%; }
+
+.photo-row img { height: 260px; }
+
+@media (max-width: 767px) {
+  .poster-figure.photo img,
+  .poster-figure.photo video { height: auto; width: 100%; }
+  .photo-row img { height: 170px; }
+}
+
+/* Task rows pair a frame strip with its reward function. */
+.rows li.task-row { flex-direction: column; align-items: stretch; gap: 10px; }
+
+/* Four task demonstrations, two across. */
+.task-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px 24px;
+  margin-top: 22px;
+}
+
+.task { margin: 0; }
+
+.task h3 {
+  margin: 0 0 9px;
+  font-family: Lato, "Open Sans", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: .3px;
+  text-transform: none;
+  color: var(--ink);
+}
+
+.task-strip,
+.task-video {
+  width: 100%;
+  border: 1px solid var(--rule);
+  display: block;
+  background: var(--paper-alt);
+}
+
+.task figcaption {
+  margin-top: 9px;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 767px) {
+  .task-grid { grid-template-columns: 1fr; gap: 24px; }
+}
+
+@media (max-width: 767px) {
+  .poster-figure { max-width: 100%; }
+}
+
+/* --- Lightbox ------------------------------------------------------------ */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, .97);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 40px 64px;
+  z-index: 50;
+}
+
+.lightbox[open], .lightbox.is-open { display: flex; }
+
+.lightbox img {
+  max-width: 100%;
+  max-height: calc(100vh - 150px);
+  object-fit: contain;
+}
+
+.lightbox-caption {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  text-align: center;
+  max-width: 640px;
+}
+
+.lightbox button {
+  position: absolute;
+  background: none;
+  border: 0;
+  color: var(--ink-soft);
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 12px 16px;
+}
+
+.lightbox button:hover { color: var(--ink); }
+.lb-close { top: 14px; right: 18px; font-size: 26px; }
+.lb-prev  { left: 8px;  top: 50%; transform: translateY(-50%); }
+.lb-next  { right: 8px; top: 50%; transform: translateY(-50%); }
+
+/* --- Music --------------------------------------------------------------- */
+
+.tracks { display: flex; flex-direction: column; gap: 26px; }
+
+/* .tracks is a column flex container. Auto side margins on a flex item defeat
+   the default `stretch`, collapsing each track to the width of its own title —
+   so the width is set explicitly and the auto margins stay out. */
+.track {
+  width: 100%;
+  align-self: stretch;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.track:last-child { border-bottom: 0; padding-bottom: 0; }
+
+/* The track stays a full-width flex item; its children carry the measure and
+   the centring. Doing it here rather than on .track itself keeps auto margins
+   away from the flex item, where they would collapse it to shrink-to-fit. */
+.track > * {
+  max-width: 66%;
+  margin-left: auto;
+  margin-right: auto;
+  transition: max-width .4s ease;
+}
+
+/* Once playing, the track opens out from the reading measure to nearly the full
+   column, so the picture is worth looking at. */
+.track.is-playing > * { max-width: 92%; }
+
+.track h3 {
+  margin: 0 0 3px;
+  font-family: Lato, "Open Sans", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--ink);
+}
+
+.track .meta { margin: 0 0 12px; color: var(--ink-faint); font-size: 13px; }
+.track audio { width: 100%; }
+
+.track .video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--paper-alt);
+  border: 1px solid var(--rule);
+  overflow: hidden;
+}
+
+/* A player swapped in on click has to fill the ratio box exactly as the iframe
+   does. Without this the video lays out at its intrinsic 1280x720 and the box,
+   which is narrower and clips overflow, cuts off its bottom and right edges. */
+.track .video iframe,
+.track .video video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: contain;
+  background: #000;
+}
+
+/* Click-to-play facade: poster frame plus a play glyph, no embed chrome. */
+.video-play {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: var(--paper-alt);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.video-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .4s ease;
+}
+
+.video-play:hover .video-poster { transform: scale(1.02); }
+.video-play:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+
+.video-play-glyph {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .88);
+  border: 1px solid var(--rule);
+  transition: background .2s ease;
+}
+
+/* The triangle, drawn with borders so nothing external has to load. */
+.video-play-glyph::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 54%;
+  transform: translate(-50%, -50%);
+  border-style: solid;
+  border-width: 11px 0 11px 18px;
+  border-color: transparent transparent transparent var(--ink);
+}
+
+.video-play:hover .video-play-glyph { background: #fff; }
+
+.player-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 74px;
+  border: 1px dashed var(--rule);
+  background: var(--paper-alt);
+  color: var(--ink-faint);
+  font-size: 11.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 14px;
+}
+
+/* --- Footer -------------------------------------------------------------- */
+
+.foot {
+  margin-top: 58px;
+  padding: 24px 0 46px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 26px;
+  justify-content: space-between;
+  color: var(--ink-faint);
+  font-size: 12.5px;
+}
+
+/* --- Responsive ---------------------------------------------------------- */
+
+@media (max-width: 767px) {
+  .wordmark { font-size: 30px; letter-spacing: 7px; text-indent: 7px; }
+  .masthead { padding-top: 42px; }
+  .nav { gap: 18px; }
+  .intro { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 26px; }
+  .intro-links { justify-content: center; }
+  .entry { grid-template-columns: 1fr; gap: 14px; }
+  .entry-thumb { width: 100%; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .gallery-grid button.tile { height: 200px; }
+  .rows li { flex-direction: column; gap: 2px; }
+  .lightbox { padding: 56px 12px 40px; }
+  .track > * { max-width: 100%; }
+}
+
+@media (max-width: 479px) {
+  .gallery-grid { grid-template-columns: 1fr; }
+  .wordmark { font-size: 24px; letter-spacing: 5px; text-indent: 5px; }
+}
+
+@media print {
+  .nav, .lightbox { display: none; }
+  body { font-size: 11pt; }
+}
